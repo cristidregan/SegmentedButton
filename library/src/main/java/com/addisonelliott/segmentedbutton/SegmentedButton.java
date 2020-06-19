@@ -343,7 +343,14 @@ public class SegmentedButton extends View
         textPaint.setTypeface(textTypeface);
 
         // Initial kickstart to setup the text layout by assuming the text will be all in one line
-        textMaxWidth = (int)textPaint.measureText(text);
+
+        if(text.contains("\n")){
+            int maxTwoRowWidth = (int) getResources().getDimension(R.dimen.max_two_row_width);
+        textMaxWidth = Math.min((int)textPaint.measureText(text) ,maxTwoRowWidth);
+        } else{
+            textMaxWidth = (int)textPaint.measureText(text);
+        }
+
         if (Build.VERSION.SDK_INT >= VERSION_CODES.M)
         {
             textStaticLayout = StaticLayout.Builder.obtain(text, 0, text.length(), textPaint, textMaxWidth).build();
